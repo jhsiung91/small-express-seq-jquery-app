@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	</head>
+	<body>
+	<input type="text" name="listAdd">
+	<button>add to list</button>
+		<ul id="list">
+		</ul>
+
+	</body>
+	<script>
+		$(document).ready( function(){
+			let listcontent = document.getElementById('list')
+			let button = document.querySelector('button')
+			//click button alert data
+			
+			button.addEventListener('click',function(){
+				let input = document.querySelector('input').value
+				console.log(input)
+				$.post({
+					url:'/',
+					data: {name: input}
+				})
+				.then(thingobj =>{
+					
+						listcontent.innerHTML += `<li>${thingobj.name}</li>`
+				})
+			})
+
+			$.ajax({
+				url: '/things',
+				type: 'GET'
+			})
+			.then(things =>{
+				// console.log(result[0].name)
+				things.forEach(thingobj =>{
+					listcontent.innerHTML += `<li>${thingobj.name}</li>`
+				})
+			})
+		})
+		
+	</script>
+</html>
